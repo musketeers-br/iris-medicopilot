@@ -1,15 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Export generator="Cache" version="25">
-  <Document name="dc-sample.ZPM">
+  <Document name="iris-medicopilot.ZPM">
     <Module>
-      <Name>dc-sample</Name>
-      <Version>2.0.4</Version>
+      <Name>iris-medicopilot</Name>
+      <Version>1.0.0</Version>
       <Description>Basic InterSystems IRIS Development Template</Description>
       <Packaging>module</Packaging>
       <SourcesRoot>src</SourcesRoot>
-      <Resource Name="dc.sample.PKG"/>
-      <UnitTest Name="/tests" Package="dc.sample.unittests" Phase="test"/>
-
+      <Dependencies>
+        <ModuleReference>
+          <Name>sslclient</Name>
+          <Version>1.*</Version>
+        </ModuleReference>
+        <ModuleReference>
+          <Name>production-settings</Name>
+          <Version>*</Version>
+        </ModuleReference>
+        <ModuleReference>
+          <Name>telegram-adapter</Name>
+          <Version>*</Version>
+        </ModuleReference>
+      </Dependencies>
+      <Resource Name="dc.irisMediCopilot.PKG"/>
+      <SystemRequirements Version=">=2024.1" Interoperability="enabled" />
     </Module>
   </Document>
 </Export>
