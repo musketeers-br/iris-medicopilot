@@ -20,9 +20,23 @@
           <Name>telegram-adapter</Name>
           <Version>*</Version>
         </ModuleReference>
+        <ModuleReference>
+          <Name>iris-openai</Name>
+          <Version>*</Version>
+        </ModuleReference>
+        <ModuleReference>
+          <Name>iris-tripleSlash</Name>
+          <Version>*</Version>
+        </ModuleReference>
       </Dependencies>
       <Resource Name="dc.irisMediCopilot.PKG"/>
       <SystemRequirements Version=">=2024.1" Interoperability="enabled" />
+      <Default Name="Token" Value="Telegram Token" />
+      <Default Name="OpenAIKey" Value="OpenAI Key" />
+      <Invoke Class="dc.irisMediCopilot.util.Setup" Method="Init" >
+          <Arg>${Token}</Arg>
+          <Arg>${OpenAIKey}</Arg>
+      </Invoke>
     </Module>
   </Document>
 </Export>
