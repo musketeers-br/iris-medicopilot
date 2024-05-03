@@ -23,13 +23,6 @@ XData ProductionDefinition
   <Item Name="TelegramVoice.Process" Category="" ClassName="dc.irisMediCopilot.interop.bp.Voice" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="true" Schedule="">
   </Item>
 
-  <Item Name="SpeechToText.Process" Category="" ClassName="dc.irisMediCopilot.interop.bp.Speach" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="true" Schedule="">
-  </Item>
-
-  <Item Name="VoiceFile.Router" Category="" ClassName="EnsLib.MsgRouter.RoutingEngine" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
-    <Setting Target="Host" Name="BusinessRuleName">dc.irisMediCopilot.interop.rule.VoiceFile</Setting>
-    <Setting Target="Host" Name="ResponseFrom">VoiceFile.BusinessOperation</Setting>
-  </Item>
   <Item Name="SpeechToText.Router" Category="" ClassName="EnsLib.MsgRouter.RoutingEngine" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
     <Setting Target="Host" Name="BusinessRuleName">dc.irisMediCopilot.interop.rule.SpeechToText</Setting>
     <Setting Target="Host" Name="RuleLogging">a</Setting>

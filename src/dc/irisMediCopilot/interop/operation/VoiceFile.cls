@@ -27,8 +27,8 @@ ClassMethod GetVoiceEncodedData(telegramserver As %String, token As %String, fil
     import requests
     import base64
 
-    url = f"https://{telegramserver}/bot{token}/"
-    file_resp = requests.get(f"{url}{filePath}")
+    url = f"https://{telegramserver}/file/bot{token}/{filePath}"
+    file_resp = requests.get(url)
     encoded_data = base64.b64encode(file_resp.content)
     return encoded_data
 }
@@ -42,6 +42,7 @@ Method ProcessRequest(pRequest As Telegram.Request, Output pResponse As dc.irisM
         Set pResponse = ##class(dc.irisMediCopilot.interop.msg.resp.Voice).%New()
         Set pResponse.ChatId = pRequest.Data."chat_id"
         Set pResponse.FileId = pRequest.Data."file_id"
+
         $$$TRACE("get voice file path")
         Set filePath =..GetVoiceFilePath(..Adapter.Server, ..Adapter.Token, pRequest.Data."file_id")
         $$$TRACE(filePath)
