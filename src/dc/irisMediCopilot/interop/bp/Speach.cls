@@ -7,7 +7,6 @@ XData BPL [ XMLNamespace = "http://www.intersystems.com/bpl" ]
 <process language='objectscript' request='Telegram.Request' response='dc.irisMediCopilot.interop.msg.resp.Audio' height='2000' width='2000' >
 <context>
 <property name='audioRequest' type='St.OpenAi.Msg.Audio.AudioRequest' instantiate='0' />
-<property name='audioResponse' type='St.OpenAi.Msg.Audio.AudioResponse' instantiate='0' />
 </context>
 <sequence xend='200' yend='650' >
 

@@ -2,7 +2,7 @@ Class dc.irisMediCopilot.interop.msg.resp.Voice Extends (Ens.Request, %JSON.Adap
 {
 
 /// Base64 of the audio to transcript/translate
-Property Audio As %String(%JSONFIELDNAME = "audio", MAXLEN = "") [ Required ];
+Property Audio As %String(%JSONFIELDNAME = "audio", MAXLEN = "");
 
 /// Telgram Chat Id 
 Property ChatId As %Integer(%JSONFIELDNAME = "chat_id");

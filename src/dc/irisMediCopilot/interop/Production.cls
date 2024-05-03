@@ -15,15 +15,15 @@ XData ProductionDefinition
     <Setting Target="Adapter" Name="FilesSave">file</Setting>
     <Setting Target="Adapter" Name="Token">Token</Setting>
   </Item>
+
   <Item Name="Message.Router" Category="" ClassName="EnsLib.MsgRouter.RoutingEngine" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
     <Setting Target="Host" Name="BusinessRuleName">dc.irisMediCopilot.interop.rule.FilterMessage</Setting>
   </Item>
-  <Item Name="SpeechToText.Process" Category="" ClassName="dc.irisMediCopilot.interop.bp.Speach" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="true" Schedule="">
-  </Item>
 
   <Item Name="TelegramVoice.Process" Category="" ClassName="dc.irisMediCopilot.interop.bp.Voice" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="true" Schedule="">
-    <Setting Target="Host" Name="BusinessRuleName">dc.irisMediCopilot.interop.rule.SpeechToText</Setting>
-    <Setting Target="Host" Name="ResponseTargetConfigNames">SpeechToText.Router</Setting>
+  </Item>
+
+  <Item Name="SpeechToText.Process" Category="" ClassName="dc.irisMediCopilot.interop.bp.Speach" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="true" Schedule="">
   </Item>
 
   <Item Name="VoiceFile.Router" Category="" ClassName="EnsLib.MsgRouter.RoutingEngine" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
