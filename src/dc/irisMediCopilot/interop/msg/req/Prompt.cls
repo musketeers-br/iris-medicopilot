@@ -1,27 +1,40 @@
 Class dc.irisMediCopilot.interop.msg.req.Prompt Extends (Ens.Request, %JSON.Adaptor)
 {
 
-Property Prompt As %String(%JSONFIELDNAME = "prompt", MAXLEN = "");
+Property content As %String(%JSONFIELDNAME = "content", MAXLEN = "");
 
-Property MaxTokens As %Integer(%JSONFIELDNAME = "max_tokens");
+Property sessionId As %Integer(%JSONFIELDNAME = "session_id");
 
-Property Model As %String(%JSONFIELDNAME = "model", MAXLEN = "");
+Property messageId As %String(%JSONFIELDNAME = "message_id", MAXLEN = "");
+
+Property chatId As %String(%JSONFIELDNAME = "chat_id", MAXLEN = "");
+
+Property username As %String(%JSONFIELDNAME = "username", MAXLEN = "");
 
 Storage Default
 {
-<Data name="ChatRequestDefaultData">
-<Subscript>"ChatRequest"</Subscript>
+<Data name="PromptDefaultData">
+<Subscript>"Prompt"</Subscript>
 <Value name="1">
-<Value>Prompt</Value>
+<Value>Content</Value>
 </Value>
 <Value name="2">
-<Value>MaxTokens</Value>
+<Value>sessionId</Value>
 </Value>
 <Value name="3">
-<Value>Model</Value>
+<Value>messageId</Value>
+</Value>
+<Value name="4">
+<Value>username</Value>
+</Value>
+<Value name="5">
+<Value>content</Value>
+</Value>
+<Value name="6">
+<Value>chatId</Value>
 </Value>
 </Data>
-<DefaultData>ChatRequestDefaultData</DefaultData>
+<DefaultData>PromptDefaultData</DefaultData>
 <Type>%Storage.Persistent</Type>
 }
 

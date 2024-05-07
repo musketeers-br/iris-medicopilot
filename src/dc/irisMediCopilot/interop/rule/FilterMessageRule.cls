@@ -16,7 +16,7 @@ XData RuleDefinition [ XMLNamespace = "http://www.intersystems.com/rule" ]
 <send transform="dc.irisMediCopilot.interop.dtl.NewUser" target="Telegram.BusinessOperation"></send>
 </when>
 <when condition="(GetJSONValue(Document.Data.message,&quot;text&quot;))!=&quot;&quot;" comment="">
-<send transform="dc.irisMediCopilot.interop.dtl.MessageTransform" target="Telegram.BusinessOperation"></send>
+<send transform="dc.irisMediCopilot.interop.dtl.MessageTransform" target="MediCopilot.Process"></send>
 </when>
 <otherwise>
 </otherwise>
