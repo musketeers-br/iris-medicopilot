@@ -33,6 +33,7 @@ Method ExecuteRequest(question As %String, sessionId As %String = "") As %Dynami
 
 ClassMethod RetrieveAnswer(apiKey As %String, collectionName As %String, question As %String, sessionId As %String = "") [ Language = python ]
 {
+    import json
     from langchain_iris import IRISVector
     from langchain_community.chat_message_histories import ChatMessageHistory
     from langchain_core.chat_history import BaseChatMessageHistory
@@ -114,9 +115,9 @@ ClassMethod RetrieveAnswer(apiKey As %String, collectionName As %String, questio
             },
         )
 
-        return "{'answer': '" + ai_msg_1['answer'] +", 'context': '"+ai_msg_1['context']+"'}"
+        return json.dumps({"answer": ai_msg_1['answer'], "context": ai_msg_1['context']})
     except:
-        return "{'error': 'API ERROR'}"
+        return json.dumps({"error": "API ERROR"})
 }
 
 }
