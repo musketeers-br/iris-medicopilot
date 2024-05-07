@@ -34,7 +34,7 @@ XData ProductionDefinition
   </Item>
 
   <Item Name="MediCopilot2Telegram.Router" Category="" ClassName="EnsLib.MsgRouter.RoutingEngine" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
-    <Setting Target="Host" Name="BusinessRuleName">dc.irisMediCopilot.interop.rule.MediCopilot2Telegram</Setting>
+    <Setting Target="Host" Name="BusinessRuleName">dc.irisMediCopilot.interop.rule.MediCopilotResponse</Setting>
     <Setting Target="Host" Name="RuleLogging">a</Setting>
     <Setting Target="Host" Name="AlertOnBadMessage">1</Setting>
     <Setting Target="Host" Name="ResponseFrom">Telegram.BusinessOperation</Setting>
