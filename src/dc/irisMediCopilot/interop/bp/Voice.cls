@@ -35,8 +35,8 @@ XData BPL [ XMLNamespace = "http://www.intersystems.com/bpl" ]
 </response>
 </call>
 <transform name='OpenAi2MediCopilot' class='dc.irisMediCopilot.interop.dtl.OpenAi2Medicopilot' source='context.audioResponse' target='context.promptRequest' xpos='200' ypos='450' />
-<assign name="chat id" property="context.promptRequest.chatId" value="request.Data.message.chat.id" action="set" xpos='200' ypos='550' />
-<assign name="message id" property="context.promptRequest.messageId" value='request.Data.message."message_id"' action="set" xpos='200' ypos='650' />
+<assign name="chat id" property="context.promptRequest.chatId" value='request.Data."chat_id"' action="set" xpos='200' ypos='550' />
+<assign name="message id" property="context.promptRequest.messageId" value='request.Data."reply_to_message_id"' action="set" xpos='200' ypos='650' />
 <call name='Call MediCopilot' target='MediCopilot.Process' async='1' xpos='200' ypos='750' >
 <request type='dc.irisMediCopilot.interop.msg.req.Prompt' >
 <assign property="callrequest" value="context.promptRequest" action="set" />
