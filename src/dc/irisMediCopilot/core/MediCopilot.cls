@@ -9,6 +9,8 @@ Property CollectionName As %String;
 
 Property SSLConfiguration As %String;
 
+Property Model As %String [ InitialExpression = "gpt-3.5-turbo" ];
+
 Method %OnNew(collectionName As %String, apiKey As %String, ssl As %String) As %Status [ Private ]
 {
 	If ( (collectionName="") || (apiKey="") || (ssl="") ) {
@@ -23,15 +25,13 @@ Method %OnNew(collectionName As %String, apiKey As %String, ssl As %String) As %
 Method ExecuteRequest(question As %String, sessionId As %String = "") As %DynamicObject
 {
     Set response = ..RetrieveAnswer(..ApiKey, ..CollectionName, question, sessionId)
-    /*
     If (response.error '="") {
-        $$$LOGINFO("API ERROR: "_response."error")
+        $$$LOGINFO("API ERROR: "_response.error)
     }
-    */
 	Return ##class(%Library.DynamicObject).%FromJSON(response)
 }
 
-ClassMethod RetrieveAnswer(apiKey As %String, collectionName As %String, question As %String, sessionId As %String = "") [ Language = python ]
+ClassMethod RetrieveAnswer(apiKey As %String, collectionName As %String, question As %String, sessionId As %String = "", model As %String = "gpt-3.5-turbo") [ Language = python ]
 {
     import json
     from langchain_iris import IRISVector
@@ -47,7 +47,7 @@ ClassMethod RetrieveAnswer(apiKey As %String, collectionName As %String, questio
 
     try:
 
-        llm = ChatOpenAI(model="gpt-3.5-turbo-0125", temperature=0, api_key=apiKey)
+        llm = ChatOpenAI(model= model, temperature=0, api_key=apiKey)
         embeddings = OpenAIEmbeddings()
 
         vectorstore = IRISVector.from_documents(
@@ -116,6 +116,44 @@ ClassMethod RetrieveAnswer(apiKey As %String, collectionName As %String, questio
         )
 
         return json.dumps({"answer": ai_msg_1['answer'], "context": ai_msg_1['context']})
+    except:
+        return json.dumps({"error": "API ERROR"})
+}
+
+ClassMethod Ingest(apiKey As %String, collectionName As %String, filePath As %String, model As %String = "gpt-3.5-turbo-0125") As %String [ Language = python ]
+{
+    import json
+    from langchain_iris import IRISVector
+    from langchain_community.chat_message_histories import ChatMessageHistory
+    from langchain_core.chat_history import BaseChatMessageHistory
+    from langchain_core.runnables.history import RunnableWithMessageHistory
+    from langchain_openai import ChatOpenAI, OpenAIEmbeddings
+    from langchain_community.document_loaders.csv_loader import CSVLoader
+    from langchain_core.chat_history import BaseChatMessageHistory
+    from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
+    from langchain_core.runnables.history import RunnableWithMessageHistory
+    from langchain_text_splitters import RecursiveCharacterTextSplitter
+
+    try:
+        llm = ChatOpenAI(model=model, temperature=0, api_key=apiKey)
+        embeddings = OpenAIEmbeddings()
+
+        loader = CSVLoader(file_path= filePath)
+        docs = loader.load()
+
+        text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
+        splits = text_splitter.split_documents(docs)
+
+        vectorstore = IRISVector.from_documents(
+            documents=splits,
+            embedding_function=embeddings,
+            dimension=1536,
+            collection_name=collectionName,
+        )
+
+        retriever = vectorstore.as_retriever()
+
+        return json.dumps({"status": true})
     except:
         return json.dumps({"error": "API ERROR"})
 }
