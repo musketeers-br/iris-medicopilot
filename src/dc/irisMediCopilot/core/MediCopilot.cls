@@ -48,7 +48,7 @@ ClassMethod RetrieveAnswer(apiKey As %String, collectionName As %String, questio
     try:
 
         llm = ChatOpenAI(model= model, temperature=0, api_key=apiKey)
-        embeddings = OpenAIEmbeddings()
+        embeddings = OpenAIEmbeddings(openai_api_key=apiKey)
 
         vectorstore = IRISVector.from_documents(
             embedding_function=embeddings,
@@ -116,8 +116,8 @@ ClassMethod RetrieveAnswer(apiKey As %String, collectionName As %String, questio
         )
 
         return json.dumps({"answer": ai_msg_1['answer'], "context": ai_msg_1['context']})
-    except:
-        return json.dumps({"error": "API ERROR"})
+    except Exception as err:
+        return json.dumps({"error": str(err)})
 }
 
 ClassMethod Ingest(apiKey As %String, collectionName As %String, filePath As %String, model As %String = "gpt-3.5-turbo-0125") As %String [ Language = python ]
@@ -135,9 +135,6 @@ ClassMethod Ingest(apiKey As %String, collectionName As %String, filePath As %St
     from langchain_text_splitters import RecursiveCharacterTextSplitter
 
     try:
-        llm = ChatOpenAI(model=model, temperature=0, api_key=apiKey)
-        embeddings = OpenAIEmbeddings()
-
         loader = CSVLoader(file_path= filePath)
         docs = loader.load()
 
@@ -146,7 +143,7 @@ ClassMethod Ingest(apiKey As %String, collectionName As %String, filePath As %St
 
         vectorstore = IRISVector.from_documents(
             documents=splits,
-            embedding_function=embeddings,
+            embedding=OpenAIEmbeddings(openai_api_key=apiKey),
             dimension=1536,
             collection_name=collectionName,
         )
@@ -154,8 +151,8 @@ ClassMethod Ingest(apiKey As %String, collectionName As %String, filePath As %St
         retriever = vectorstore.as_retriever()
 
         return json.dumps({"status": true})
-    except:
-        return json.dumps({"error": "API ERROR"})
+    except Exception as err:
+        return json.dumps({"error": str(err)})
 }
 
 }
