@@ -8,10 +8,13 @@ ClassMethod Init(Token As %String = "", OpenAIKey As %String = "") As %Status
 {
     Set sc=$$$OK
 	Try {
-        For item="Telegram.BusinessService","St.OpenAi.BO.Api.Connect" {
-            Set prop = "ApiKey"
-            Set:(item["Telegram") prop = "Token"
-            $$$ThrowOnError(##class(shvarov.i14y.Settings).SetValue(..#PRODUCTION, item, prop, Token))
+        For item="Telegram.BusinessService","VoiceFile.BusinessOperation" {
+            Continue:(Token="")
+            $$$ThrowOnError(##class(shvarov.i14y.Settings).SetValue(..#PRODUCTION, item, "Token", Token))
+        }
+        For item="MediCopilot.BusinessOperation","St.OpenAi.BO.Api.Connect" {
+            Continue:(OpenAIKey="")
+            $$$ThrowOnError(##class(shvarov.i14y.Settings).SetValue(..#PRODUCTION, item, "ApiKey", OpenAIKey))
         }
 
 	} Catch tException {

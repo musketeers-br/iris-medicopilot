@@ -91,8 +91,6 @@ ClassMethod RetrieveAnswer(apiKey As %String, collectionName As %String, questio
 
         rag_chain = create_retrieval_chain(history_aware_retriever, question_answer_chain)
 
-        # Statefully manage chat history
-
         store = {}
 
         def get_session_history(session_id: str) -> BaseChatMessageHistory:
@@ -122,6 +120,7 @@ ClassMethod RetrieveAnswer(apiKey As %String, collectionName As %String, questio
 
 ClassMethod Ingest(apiKey As %String, collectionName As %String, filePath As %String, model As %String = "gpt-3.5-turbo-0125") As %String [ Language = python ]
 {
+
     import json
     from langchain_iris import IRISVector
     from langchain_community.chat_message_histories import ChatMessageHistory
@@ -135,7 +134,7 @@ ClassMethod Ingest(apiKey As %String, collectionName As %String, filePath As %St
     from langchain_text_splitters import RecursiveCharacterTextSplitter
 
     try:
-        loader = CSVLoader(file_path= filePath)
+        loader = CSVLoader(file_path=filePath)
         docs = loader.load()
 
         text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
@@ -148,9 +147,9 @@ ClassMethod Ingest(apiKey As %String, collectionName As %String, filePath As %St
             collection_name=collectionName,
         )
 
-        retriever = vectorstore.as_retriever()
+        # retriever = vectorstore.as_retriever()
 
-        return json.dumps({"status": true})
+        return json.dumps({"status": True})
     except Exception as err:
         return json.dumps({"error": str(err)})
 }
