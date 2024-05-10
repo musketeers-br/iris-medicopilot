@@ -23,12 +23,15 @@ Method OnInit() As %Status
     Return $$$OK
 }
 
-/// Method Execute(Output resultMessage As %DynamicAbstractObject, question As %String) As %Status
-Method Execute(Output resultMessage As %String, question As %String) As %Status
+Method Execute(Output resultMessage As %DynamicAbstractObject, question As %String) As %Status
 {
+    Set resultMessage = {}
     Try {
+        If ('$IsObject(..Core)) {
+            $$$ThrowStatus($$$ERROR($$$GeneralError, "Сonnection not initialized"))
+        }
+
         Set resultMessage = ..Core.Execute(question)
-        //Set resultMessage.answer = ..Core.Execute(question)
     } Catch ex {
         Return ex.AsStatus()
     }

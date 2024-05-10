@@ -22,18 +22,23 @@ Method %OnNew(collectionName As %String, apiKey As %String, ssl As %String) As %
 	Return $$$OK
 }
 
-/// Method Execute(question As %String, sessionId As %String = "") As %DynamicObject
-Method Execute(question As %String, sessionId As %String = "") As %String
+Method Execute(question As %String, sessionId As %String = "") As %DynamicObject
 {
     Set response = ..RetrieveAnswer(..ApiKey, ..CollectionName, question, sessionId)
     $$$LOGINFO("response: "_response)
-    Return response
+
+    Try {
+        Set response = ##class(%Library.DynamicObject).%FromJSON(response)
+    } Catch ex {
+        $$$LOGINFO("JSON ERROR: "_ex.AsStatus())
+        Set response = {}
+    }
 
     If (response.error '="") {
         $$$LOGINFO("API ERROR: "_response.error)
     }
 
-	;Return ##class(%Library.DynamicObject).%FromJSON(response)
+	Return response
 }
 
 ClassMethod RetrieveAnswer(apiKey As %String, collectionName As %String, question As %String, sessionId As %String = "", model As %String = "gpt-3.5-turbo") [ Language = python ]
@@ -126,8 +131,7 @@ ClassMethod RetrieveAnswer(apiKey As %String, collectionName As %String, questio
             },
         )
 
-        return str(ai_msg_1['answer'])
-        return json.dumps({"answer": ai_msg_1['answer']})
+        return json.dumps({"answer": str(ai_msg_1['answer'])})
     except Exception as err:
         return json.dumps({"error": str(err)})
 }
