@@ -22,13 +22,18 @@ Method %OnNew(collectionName As %String, apiKey As %String, ssl As %String) As %
 	Return $$$OK
 }
 
-Method ExecuteRequest(question As %String, sessionId As %String = "") As %DynamicObject
+/// Method Execute(question As %String, sessionId As %String = "") As %DynamicObject
+Method Execute(question As %String, sessionId As %String = "") As %String
 {
     Set response = ..RetrieveAnswer(..ApiKey, ..CollectionName, question, sessionId)
+    $$$LOGINFO("response: "_response)
+    Return response
+
     If (response.error '="") {
         $$$LOGINFO("API ERROR: "_response.error)
     }
-	Return ##class(%Library.DynamicObject).%FromJSON(response)
+
+	;Return ##class(%Library.DynamicObject).%FromJSON(response)
 }
 
 ClassMethod RetrieveAnswer(apiKey As %String, collectionName As %String, question As %String, sessionId As %String = "", model As %String = "gpt-3.5-turbo") [ Language = python ]
@@ -40,18 +45,26 @@ ClassMethod RetrieveAnswer(apiKey As %String, collectionName As %String, questio
     from langchain_core.runnables.history import RunnableWithMessageHistory
     from langchain_openai import ChatOpenAI, OpenAIEmbeddings
 
+    from langchain_community.document_loaders.csv_loader import CSVLoader
+    from langchain_text_splitters import RecursiveCharacterTextSplitter
+
     from langchain.chains import create_history_aware_retriever
     from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
     from langchain.chains import create_retrieval_chain
     from langchain.chains.combine_documents import create_stuff_documents_chain
 
     try:
+        loader = CSVLoader(file_path='/home/irisowner/dev/src/data/synthetic_data_01.csv')
+        docs = loader.load()
 
+        text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
+        splits = text_splitter.split_documents(docs)
         llm = ChatOpenAI(model= model, temperature=0, api_key=apiKey)
         embeddings = OpenAIEmbeddings(openai_api_key=apiKey)
 
         vectorstore = IRISVector.from_documents(
-            embedding_function=embeddings,
+            documents=splits,
+            embedding=OpenAIEmbeddings(openai_api_key=apiKey),
             dimension=1536,
             collection_name=collectionName,
         )
@@ -113,7 +126,8 @@ ClassMethod RetrieveAnswer(apiKey As %String, collectionName As %String, questio
             },
         )
 
-        return json.dumps({"answer": ai_msg_1['answer'], "context": ai_msg_1['context']})
+        return str(ai_msg_1['answer'])
+        return json.dumps({"answer": ai_msg_1['answer']})
     except Exception as err:
         return json.dumps({"error": str(err)})
 }

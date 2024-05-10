@@ -13,14 +13,17 @@ Method ProcessRequest(pRequest As dc.irisMediCopilot.interop.msg.req.Prompt, Out
 {
     Set tSC = $$$OK
     Try {
-        $$$TRACE("starting the process")
-        Set tSC = ..Adapter.ExecuteRequest(.resp, pRequest.content)
+      Set resp = ""
+        Set tSC = ..Adapter.Execute(.resp, pRequest.content)
+        /*
         If (resp.error '= "") {
             $$$ThrowStatus($$$ERROR($$$GeneralError,resp."error"_": "_resp.error))
         }
+      */
         Set pResponse = ##class(dc.irisMediCopilot.interop.msg.resp.Prompt).%New()
         Set pResponse.chatId = pRequest.chatId
-        Set pResponse.content = resp.answer
+        ;Set pResponse.content = resp.answer
+        Set pResponse.content = resp
         Set pResponse.messageId = pRequest.messageId
         Set pResponse.username = pRequest.username
     } Catch ex {
