@@ -111,7 +111,7 @@ set sc=$zpm("install iris-medicopilot")
 
 # Limitations
 
-This project is a pioneering effort exploring the potential of LLMs in healthcare. As with any new technology, there are limitations to consider:
+As with any new technology, there are limitations to consider:
 
 - Experimental Phase: 
   The project is currently undergoing testing and refinement. It's important to acknowledge that the system might generate inaccurate or unexpected results. Our primary focus at this stage is to validate the core concept of using LLMs to aid healthcare professionals.
@@ -123,8 +123,6 @@ This project is a pioneering effort exploring the potential of LLMs in healthcar
   This initial version does not comprehensively address crucial aspects of data privacy and security. These are critical considerations that will be addressed in future research and development phases.
 
 We are committed to responsible development and will prioritize these limitations in future iterations of the project.
-
-# Future work
 
 # Credits
 
