@@ -58,6 +58,9 @@ ClassMethod RetrieveAnswer(apiKey As %String, collectionName As %String, questio
     from langchain.chains import create_retrieval_chain
     from langchain.chains.combine_documents import create_stuff_documents_chain
 
+    import os
+    from sqlalchemy import text
+
     try:
         loader = CSVLoader(file_path='/home/irisowner/dev/src/data/synthetic_data_01.csv')
         docs = loader.load()
@@ -67,20 +70,27 @@ ClassMethod RetrieveAnswer(apiKey As %String, collectionName As %String, questio
         llm = ChatOpenAI(model= model, temperature=0, api_key=apiKey)
         embeddings = OpenAIEmbeddings(openai_api_key=apiKey)
 
-        # call IRISVector passing a list of documents to be stored in a collection
-        #; vectorstore = IRISVector.from_documents(
-        #;     documents=splits,
-        #;     embedding=OpenAIEmbeddings(openai_api_key=apiKey),
-        #;     dimension=1536,
-        #;     collection_name=collectionName,
-        #; )
-
         # call IRISVector using a previous collection
         vectorstore = IRISVector(
             embedding_function=OpenAIEmbeddings(openai_api_key=apiKey),
             dimension=1536,
             collection_name=collectionName,
         )
+        # check if document collection exists
+        conn = vectorstore.connect()
+        #; sql = f"select count(*) from INFORMATION_SCHEMA.TABLES where TABLE_SCHEMA = 'SQLUser' and TABLE_NAME = 'mediCopilot-docs'"
+        sql = f'SELECT count(*) FROM SQLUser."mediCopilot-docs"'
+        result = conn.execute(text(sql))
+        collection_exists = result.first()[0] > 0
+        print(collection_exists)
+        if not collection_exists:
+            # call IRISVector passing a list of documents to be stored in a collection
+            vectorstore = IRISVector.from_documents(
+                documents=splits,
+                embedding=OpenAIEmbeddings(openai_api_key=apiKey),
+                dimension=1536,
+                collection_name=collectionName,
+            )
 
         retriever = vectorstore.as_retriever()
 
@@ -133,7 +143,8 @@ ClassMethod RetrieveAnswer(apiKey As %String, collectionName As %String, questio
         )
 
         ai_msg_1 = conversational_rag_chain.invoke(
-            {"input": "What is Task Decomposition?"},
+            #; {"input": "What is Task Decomposition?"},
+            {"input": question},
             config={
                 "configurable": {"session_id": sessionId}
             },

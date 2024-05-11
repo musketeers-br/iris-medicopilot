@@ -24,6 +24,8 @@ ClassMethod Init(Token As %String = "", OpenAIKey As %String = "") As %Status
     Do ##class(%EnsembleMgr).SetAutoStart($namespace, ..#PRODUCTION)
     Job ##class(Ens.Director).StartProduction(..#PRODUCTION)
 
+    #; Do ##class(dc.irisMediCopilot.util.Setup).LoadDocsToVectorSearch()
+
     Return sc
 }
 
