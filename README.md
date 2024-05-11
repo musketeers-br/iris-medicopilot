@@ -14,16 +14,42 @@
     - [IPM](#ipm)
 - [Limitations](#limitations)
 - [Future work](#future-work)
-  - [Credits](#credits)
+- [Credits](#credits)
 - [Dream team](#dream-team)
+
 
 # IRIS-MediCoPilot
 
+![IRIS-MediCoPilot made by AI](./assets/medicopilot-cover.jpg)	
 
 ## Motivation
 
+Our project, **Iris-MediCoPilot**, is designed to optimize patient clinical outcomes by reducing hospitalization time and supporting the development of resident and novice physicians. Additionally, it contributes to reducing financial waste in the healthcare system by improving the monitoring of pregnant patients, thereby decreasing risks and enhancing their safety.
+
+To achieve this, patients can conveniently describe their symptoms through a user-friendly Telegram bot. The project then leverages a comprehensive medical database to analyze the information. Additionally, the bot strategically asks clarifying questions to gather further details and refine the potential diagnosis. If the **Iris-MediCoPilot** identifies a potential health risk, it will advise the patient to seek medical attention at a hospital. Furthermore, the conversation history is automatically forwarded to a doctor acting as a "co-pilot" or "sidekick," providing valuable insights to support physician decision-making.
 
 ## How it works?
+
+This project leverages cutting-edge technologies to streamline patient care and support physicians. Here's a breakdown of the process:
+
+1. User-Friendly Patient Interaction:
+  Patients conveniently report symptoms through a Telegram bot.
+
+2. Intelligent Symptom Analysis:
+  The system utilizes a vector search database to analyze the reported symptoms. This database efficiently retrieves similar cases based on underlying semantic relationships.
+  RAG (Retrieval-Augmented Generation) technology empowers the system to access and integrate relevant medical knowledge from a supplementary knowledge base.
+  Prompt engineering techniques, including role-playing and prompt chaining, guide Large Language Models (LLMs) like ChatGPT 3.5 to ask clarifying questions and delve deeper into the patient's situation.
+
+3. Refining the Diagnosis:
+  LLMs analyze the extracted features from the vector search and the retrieved medical knowledge.
+  To compensate for the LLM's potential lack of specialized medical knowledge, the system provides contextually embedded information to guide their responses.
+  In this initial version, synthetic data based on common pregnancy risks and diseases is used to train the LLMs.
+
+4. Risk Assessment and Recommendation:
+  Based on the analysis, the system assesses potential health risks.
+  If a risk is identified, the patient is advised to seek medical attention at a hospital.
+  The conversation history is automatically forwarded to a doctor acting as a "co-pilot" or "sidekick" to provide additional insights and support their decision-making.
+  This combined approach aims to improve the accuracy of diagnoses, reduce unnecessary hospitalizations, and enhance patient care.
 
 ## Prerequisites
 
@@ -33,13 +59,17 @@ Make sure you have [git](https://git-scm.com/book/en/v2/Getting-Started-Installi
 
 ### Setting a LLM API key
 
-In order to us a LLM service, you need to set an API key.
+To utilize the Large Language Model (LLM) service, you'll need an API key. Currently, the project supports OpenAI's LLM service.
 
-Currently, this project supports Google Gemini and OpenAI LLM service is supported.
+[Obtain your OpenAI API key by creating an account on their platform](https://openai.com/).
 
-You can setup your LLM API key and Telegram bot Token in the following way:
+#### Configuring Environment Variables:
 
-- On the docker container or IPM package, setting the `OPENAI_KEY` and `TELEGRAM_TOKEN` environment variables.
+Environment variables are used to store sensitive information like API keys and tokens. These variables need to be set before building the Docker image.
+
+There are two ways to configure these variables:
+
+When launching the Docker container, you can set the `OPENAI_KEY` and `TELEGRAM_TOKEN` the environment variables using the -e flag:
 
 ```bash
 # OpenAI API key
@@ -55,11 +85,6 @@ Clone/git pull the repo into any local directory
 ```
 $ git clone https://github.com/musketeers-br/iris-medicopilot.git 
 ```
-
-Create .env file in the root directory of the repo with:
-
-TELEGRAM_TOKEN=Your_telegrambot_token
-OPENAI_KEY=Your_chatGPT_key
 
 Open the terminal in this directory and run:
 
@@ -86,16 +111,22 @@ set sc=$zpm("install iris-medicopilot")
 
 # Limitations
 
-This project is currently in an experimental phase, and as such, it is expected to produce incorrect or unusual results. Our primary objective at this stage is to test the fundamental concept of harnessing the capabilities of LLMs to assist health professionals.
+This project is a pioneering effort exploring the potential of LLMs in healthcare. As with any new technology, there are limitations to consider:
 
-It's worth noting that we have only worked with very basic and straightforward structured data thus far.
+- Experimental Phase: 
+  The project is currently undergoing testing and refinement. It's important to acknowledge that the system might generate inaccurate or unexpected results. Our primary focus at this stage is to validate the core concept of using LLMs to aid healthcare professionals.
 
-Furthermore, it's important to emphasize that certain critical topics, such as data privacy and security, are not addressed within the scope of this project. These areas must be addressed in future research and development.
+- Limited Data Complexity: 
+  Up to this point, the project has primarily focused on working with basic and well-defined structured data. Integrating more intricate and nuanced data types requires further development.
+
+- Data Privacy and Security: 
+  This initial version does not comprehensively address crucial aspects of data privacy and security. These are critical considerations that will be addressed in future research and development phases.
+
+We are committed to responsible development and will prioritize these limitations in future iterations of the project.
 
 # Future work
 
-
-## Credits
+# Credits
 
 This application uses [Telegram-adapter](https://openexchange.intersystems.com/package/Telegram-adapter) by [Nikolay Soloviev](https://openexchange.intersystems.com/user/Nikolay%20Solovyev/PdgTNFsHyQu1qL02CS4BfFYIs) and [Iris-OpenAI](https://openexchange.intersystems.com/package/iris-openai) adapter by [Kurro Lopez](https://openexchange.intersystems.com/user/Francisco%20L%C3%B3pez/n8nIarmmcBVMySIjS3ukc2Mp9w).
 
