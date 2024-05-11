@@ -11,10 +11,10 @@
   - [Installation](#installation)
     - [Setting a LLM API key](#setting-a-llm-api-key)
     - [Docker](#docker)
-    - [IPM](#ipm))
+    - [IPM](#ipm)
 - [Limitations](#limitations)
 - [Future work](#future-work)
-- [Credits](#credits)
+  - [Credits](#credits)
 - [Dream team](#dream-team)
 
 # IRIS-MediCoPilot
@@ -39,11 +39,11 @@ Currently, this project supports Google Gemini and OpenAI LLM service is support
 
 You can setup your LLM API key and Telegram bot Token in the following way:
 
-- On the docker container or IPM package, setting the `OPENAI_API_KEY` and `TELEGRAM_TOKEN` environment variables.
+- On the docker container or IPM package, setting the `OPENAI_KEY` and `TELEGRAM_TOKEN` environment variables.
 
 ```bash
 # OpenAI API key
-export OPENAI_API_KEY=$OPENAI_API_KEY
+export OPENAI_KEY=$OPENAI_KEY
 # Telegram bot Token
 export TELEGRAM_TOKEN=$TELEGRAM_TOKEN
 ```
@@ -59,7 +59,7 @@ $ git clone https://github.com/musketeers-br/iris-medicopilot.git
 Create .env file in the root directory of the repo with:
 
 TELEGRAM_TOKEN=Your_telegrambot_token
-OPENAPI_KEY=Your_chatGPT_key
+OPENAI_KEY=Your_chatGPT_key
 
 Open the terminal in this directory and run:
 

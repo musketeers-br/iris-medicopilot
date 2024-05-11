@@ -9,7 +9,7 @@ Property ApiKey As %String(MAXLEN = "");
 
 Property SSLConfig As %String;
 
-Parameter SETTINGS As %String = "CollectionName:Connection,ApiKey:Connection,SSLConfig:Connection:sslConfigSelector";
+Parameter SETTINGS = "CollectionName:Connection,ApiKey:Connection,SSLConfig:Connection:sslConfigSelector";
 
 Property Core As dc.irisMediCopilot.core.MediCopilot;
 
@@ -21,6 +21,17 @@ Method OnInit() As %Status
         Return ex.AsStatus()
     }
     Return $$$OK
+}
+
+Method ApiKeyGet() As %String
+{
+    Set openaiKey = ##class(%SYSTEM.Util).GetEnviron("OPENAI_KEY")
+    If (i%ApiKey = "") && (openaiKey '= "") {
+        $$$TRACE("Using key from OPENAI_KEY env")
+        Return openaiKey
+    }
+    $$$TRACE("Using key from settings")
+    Return i%ApiKey
 }
 
 Method Execute(Output resultMessage As %DynamicAbstractObject, question As %String) As %Status

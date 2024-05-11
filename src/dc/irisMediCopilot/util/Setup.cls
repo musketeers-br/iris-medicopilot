@@ -8,11 +8,11 @@ ClassMethod Init(Token As %String = "", OpenAIKey As %String = "") As %Status
 {
     Set sc=$$$OK
 	Try {
-        For item="Telegram.BusinessService","VoiceFile.BusinessOperation" {
+        For item="Telegram.BusinessService","VoiceFile.BusinessOperation","Telegram.BusinessOperation" {
             Continue:(Token="")
             $$$ThrowOnError(##class(shvarov.i14y.Settings).SetValue(..#PRODUCTION, item, "Token", Token))
         }
-        For item="MediCopilot.BusinessOperation","St.OpenAi.BO.Api.Connect" {
+        For item="MediCopilot.BusinessOperation","OpenAi.BusinessOperation" {
             Continue:(OpenAIKey="")
             $$$ThrowOnError(##class(shvarov.i14y.Settings).SetValue(..#PRODUCTION, item, "ApiKey", OpenAIKey))
         }

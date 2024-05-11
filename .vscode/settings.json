@@ -6,6 +6,8 @@
       },
     "objectscript.conn" :{
       "active": true,
+      "host": "localhost",
+      "port": 57373,
       "ns": "IRISAPP",
       "username": "_SYSTEM",
       "password": "SYS",

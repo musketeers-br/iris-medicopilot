@@ -5,9 +5,9 @@ Class dc.irisMediCopilot.interop.operation.VoiceFile Extends Ens.BusinessOperati
 
 Parameter INVOCATION = "Queue";
 
-Parameter ADAPTER = "Telegram.OutboundAdapter";
+Parameter ADAPTER = "dc.irisMediCopilot.adapter.TelegramOutboundAdapter";
 
-Property Adapter As Telegram.OutboundAdapter;
+Property Adapter As dc.irisMediCopilot.adapter.TelegramOutboundAdapter;
 
 ClassMethod GetVoiceFilePath(telegramserver As %String, token As %String, fileId As %String) As %String [ Language = python ]
 {

@@ -2,7 +2,7 @@ version: '3.6'
 services:
   iris:
     environment:
-        - OPENAPI_KEY=${OPENAPI_KEY}
+        - OPENAI_KEY=${OPENAI_KEY}
         - TELEGRAM_TOKEN=${TELEGRAM_TOKEN}
     build:
       context: .
@@ -11,8 +11,8 @@ services:
     restart: always
     command: --check-caps false --ISCAgent false
     ports:
-      - 1972
-      - 52773
-      - 53773
+      - 57372:1972
+      - 57373:52773
+      - 57374:53773
     volumes:
       - ./:/home/irisowner/dev
