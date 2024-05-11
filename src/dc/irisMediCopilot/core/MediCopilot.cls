@@ -67,9 +67,17 @@ ClassMethod RetrieveAnswer(apiKey As %String, collectionName As %String, questio
         llm = ChatOpenAI(model= model, temperature=0, api_key=apiKey)
         embeddings = OpenAIEmbeddings(openai_api_key=apiKey)
 
-        vectorstore = IRISVector.from_documents(
-            documents=splits,
-            embedding=OpenAIEmbeddings(openai_api_key=apiKey),
+        # call IRISVector passing a list of documents to be stored in a collection
+        #; vectorstore = IRISVector.from_documents(
+        #;     documents=splits,
+        #;     embedding=OpenAIEmbeddings(openai_api_key=apiKey),
+        #;     dimension=1536,
+        #;     collection_name=collectionName,
+        #; )
+
+        # call IRISVector using a previous collection
+        vectorstore = IRISVector(
+            embedding_function=OpenAIEmbeddings(openai_api_key=apiKey),
             dimension=1536,
             collection_name=collectionName,
         )

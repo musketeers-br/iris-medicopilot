@@ -24,4 +24,9 @@
     set ^UnitTestRoot="/usr/irissys/.vscode/IRISAPP/UnitTestRoot"
 
     zpm "load /home/irisowner/dev/ -v":1:1
+
+    Write "Loading docs...", !
+    Do ##class(dc.irisMediCopilot.util.Setup).LoadDocsToVectorSearch()
+    Write "done!",!
+
     halt
