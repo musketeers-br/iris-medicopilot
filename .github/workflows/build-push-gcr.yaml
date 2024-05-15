@@ -17,5 +17,3 @@ jobs:
     secrets:
       # Do not forget to add Secret in GitHub Repoository Settings with name SERVICE_ACCOUNT_KEY
       SERVICE_ACCOUNT_KEY: ${{ secrets.SERVICE_ACCOUNT_KEY }}
-      OPENAI_KEY: ${{ secrets.OPENAI_KEY }}
-      TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
