@@ -9,7 +9,7 @@ on:
 
 jobs:
   deploy:
-    uses: intersystems-community/demo-deployment/.github/workflows/deployment.yml@master
+    uses: ./deployment.yml
     with:
       # Replace the name: parameter below to have your application deployed at
       # https://iris-medicopilot.demo.community.intersystems.com/
