@@ -10,9 +10,6 @@ on:
 jobs:
   deploy:
     uses: intersystems-community/demo-deployment/.github/workflows/deployment.yml@master
-    env:
-      TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
-      OPENAI_KEY: ${{ secrets.OPENAI_KEY }}
     with:
       # Replace the name: parameter below to have your application deployed at
       # https://iris-medicopilot.demo.community.intersystems.com/
