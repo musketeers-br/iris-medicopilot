@@ -36,12 +36,22 @@ on:
         description: 'Domain name of deployment, before `.demo.community.intersystems.com`'
         required: true
         type: string
+      TELEGRAM_TOKEN:
+        description: 'TELEGRAM_TOKEN'
+        required: true
+        type: string
+      OPENAI_KEY:
+        description: 'OPENAI_KEY'
+        required: true
+        type: string
 
 env:
   # Change this section according to your needs
   IMAGE_NAME:   ${{ inputs.name }}
   SERVICE:      ${{ inputs.name }}
   DOMAIN_NAME:  ${{ inputs.name }}.demo.community.intersystems.com
+  TELEGRAM_TOKEN:  ${{ inputs.TELEGRAM_TOKEN }}
+  OPENAI_KEY:  ${{ inputs.OPENAI_KEY }}
 
 # Leave this section untouched
   PROJECT_ID:   iris-community-demos
