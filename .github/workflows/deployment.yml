@@ -99,7 +99,7 @@ jobs:
 
     - name: Build and Push image
       run: |
-        docker buildx build -t ${GCR_LOCATION}/${PROJECT_ID}/${IMAGE_NAME}:${GITHUB_SHA} --push .
+        docker buildx build -t ${GCR_LOCATION}/${PROJECT_ID}/${IMAGE_NAME}:${GITHUB_SHA} --build-arg TELEGRAM_TOKEN=${{ secrets.TELEGRAM_TOKEN }} --build-arg OPENAI_KEY{{ secrets.OPENAI_KEY }} --push .
 
     - name: Deploy to Cloud Run
       run: |
