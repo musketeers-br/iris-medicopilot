@@ -9,14 +9,16 @@ Property ApiKey As %String(MAXLEN = "");
 
 Property SSLConfig As %String;
 
-Parameter SETTINGS = "CollectionName:Connection,ApiKey:Connection,SSLConfig:Connection:sslConfigSelector";
+Property DataPath As %String(MAXLEN = "") [ InitialExpression = "/home/irisowner/dev/src/data/synthetic_data_01.csv" ];
+
+Parameter SETTINGS = "CollectionName:Connection,ApiKey:Connection,SSLConfig:Connection:sslConfigSelector,DataPath:Setup";
 
 Property Core As dc.irisMediCopilot.core.MediCopilot;
 
 Method OnInit() As %Status
 {
     Try {
-        Set ..Core = ##class(dc.irisMediCopilot.core.MediCopilot).%New(..CollectionName, ..ApiKey, ..SSLConfig)
+        Set ..Core = ##class(dc.irisMediCopilot.core.MediCopilot).%New(..CollectionName, ..ApiKey, ..SSLConfig, ..DataPath)
     } Catch ex {
         Return ex.AsStatus()
     }

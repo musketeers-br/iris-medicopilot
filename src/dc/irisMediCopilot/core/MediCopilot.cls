@@ -11,7 +11,9 @@ Property SSLConfiguration As %String;
 
 Property Model As %String [ InitialExpression = "gpt-3.5-turbo" ];
 
-Method %OnNew(collectionName As %String, apiKey As %String, ssl As %String) As %Status [ Private ]
+Property DataPath As %String[ InitialExpression = "/home/irisowner/dev/src/data/synthetic_data_01.csv" ];
+
+Method %OnNew(collectionName As %String, apiKey As %String, ssl As %String, dataPath As %String) As %Status [ Private ]
 {
 	If ( (collectionName="") || (apiKey="") || (ssl="") ) {
         $$$ThrowStatus($$$ERROR($$$GeneralError, "Server, token and SSL-configuration are required"))
@@ -19,6 +21,7 @@ Method %OnNew(collectionName As %String, apiKey As %String, ssl As %String) As %
 	Set ..ApiKey = apiKey
     Set ..CollectionName = collectionName
 	Set ..SSLConfiguration = ssl
+    Set ..DataPath = dataPath
 	Return $$$OK
 }
 
@@ -41,7 +44,7 @@ Method Execute(question As %String, sessionId As %String = "") As %DynamicObject
 	Return response
 }
 
-ClassMethod RetrieveAnswer(apiKey As %String, collectionName As %String, question As %String, sessionId As %String = "", model As %String = "gpt-3.5-turbo") [ Language = python ]
+ClassMethod RetrieveAnswer(apiKey As %String, collectionName As %String, question As %String, sessionId As %String = "", model As %String = "gpt-3.5-turbo", dataPath As %String = "") [ Language = python ]
 {
     import json
     from langchain_iris import IRISVector
@@ -62,7 +65,7 @@ ClassMethod RetrieveAnswer(apiKey As %String, collectionName As %String, questio
     from sqlalchemy import text
 
     try:
-        loader = CSVLoader(file_path='/home/irisowner/dev/src/data/synthetic_data_01.csv')
+        loader = CSVLoader(file_path=dataPath)
         docs = loader.load()
 
         text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
