@@ -109,6 +109,37 @@ Or call the following for installing programmatically:
 set sc=$zpm("install iris-medicopilot")
 ```
 
+### How to Run the Service
+
+This section outlines the steps to set up and run the service in production.
+
+1. Configuration:
+  - Telegram Token:
+    - Obtain your Telegram bot's token from the BotFather (https://telegram.me/BotFather).
+    - Add this token to the following configurations:
+      - Telegram.BusinessService
+      - Telegram.BusinessOperation
+      - VoiceFile.BusinessOperation
+
+  ![telegram bo](./assets/telegram_01.png)	
+  ![telegram bs](./assets/telegram_02.png)	
+
+  - OpenAI API Key and Organization ID:
+    -  Create an account on OpenAI (https://openai.com/) and obtain your API key.
+    - Retrieve your organization ID from the OpenAI platform.
+    - Initialize these credentials with:
+      - OpenAi.BusinessOperation
+
+  ![openai key](./assets/openai_01.png)	
+  ![openai medicopilot key](./assets/openai_02.png)	
+
+  - Environment Variables (Optional):
+    - Alternatively, you can set the necessary [environment variables (TELEGRAM_TOKEN, OPENAI_KEY) to avoid manual configuration](#configuring-environment-variables).
+
+2. Starting the Service:
+  Once configuration is complete, start the production. 
+
+
 # Limitations
 
 As with any new technology, there are limitations to consider:
@@ -126,7 +157,10 @@ We are committed to responsible development and will prioritize these limitation
 
 # Credits
 
-This application uses [Telegram-adapter](https://openexchange.intersystems.com/package/Telegram-adapter) by [Nikolay Soloviev](https://openexchange.intersystems.com/user/Nikolay%20Solovyev/PdgTNFsHyQu1qL02CS4BfFYIs) and [Iris-OpenAI](https://openexchange.intersystems.com/package/iris-openai) adapter by [Kurro Lopez](https://openexchange.intersystems.com/user/Francisco%20L%C3%B3pez/n8nIarmmcBVMySIjS3ukc2Mp9w).
+This application uses:
+- [Telegram-adapter](https://openexchange.intersystems.com/package/Telegram-adapter) by [Nikolay Soloviev](https://openexchange.intersystems.com/user/Nikolay%20Solovyev/PdgTNFsHyQu1qL02CS4BfFYIs)
+- [Iris-OpenAI](https://openexchange.intersystems.com/package/iris-openai) adapter by [Kurro Lopez](https://openexchange.intersystems.com/user/Francisco%20L%C3%B3pez/n8nIarmmcBVMySIjS3ukc2Mp9w)
+- [Langchain-Iris](https://openexchange.intersystems.com/package/langchain-iris) by [Dmitry Maslennikov](https://openexchange.intersystems.com/user/Dmitry%20Maslennikov/YpNBvnDkky3FetRt6rPnhxRjjwM)
 
 # Dream team
 
