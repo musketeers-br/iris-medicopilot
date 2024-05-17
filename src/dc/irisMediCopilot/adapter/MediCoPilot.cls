@@ -9,9 +9,11 @@ Property ApiKey As %String(MAXLEN = "");
 
 Property SSLConfig As %String;
 
-Property DataPath As %String(MAXLEN = "") [ InitialExpression = "/home/irisowner/dev/src/data/synthetic_data_01.csv" ];
+Property Model As %String(MAXLEN = "") [ InitialExpression = "gpt-3.5-turbo" ];
 
-Parameter SETTINGS = "CollectionName:Connection,ApiKey:Connection,SSLConfig:Connection:sslConfigSelector,DataPath:Setup";
+Property DataPath As %String(MAXLEN = "") [ InitialExpression = "/home/irisowner/dev/src/data/synthetic_data_02.csv" ];
+
+Parameter SETTINGS = "CollectionName:Connection,ApiKey:Connection,SSLConfig:Connection:sslConfigSelector,DataPath:Setup,Model:Setup";
 
 Property Core As dc.irisMediCopilot.core.MediCopilot;
 

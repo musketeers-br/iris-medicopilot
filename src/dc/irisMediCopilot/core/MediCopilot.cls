@@ -11,7 +11,7 @@ Property SSLConfiguration As %String;
 
 Property Model As %String [ InitialExpression = "gpt-3.5-turbo" ];
 
-Property DataPath As %String[ InitialExpression = "/home/irisowner/dev/src/data/synthetic_data_01.csv" ];
+Property DataPath As %String [ InitialExpression = "/home/irisowner/dev/src/data/synthetic_data_02.csv" ];
 
 Method %OnNew(collectionName As %String, apiKey As %String, ssl As %String, dataPath As %String) As %Status [ Private ]
 {
@@ -27,7 +27,7 @@ Method %OnNew(collectionName As %String, apiKey As %String, ssl As %String, data
 
 Method Execute(question As %String, sessionId As %String = "") As %DynamicObject
 {
-    Set response = ..RetrieveAnswer(..ApiKey, ..CollectionName, question, sessionId)
+    Set response = ..RetrieveAnswer(..ApiKey, ..CollectionName, question, sessionId, ..Model, ..DataPath)
     $$$LOGINFO("response: "_response)
 
     Try {
@@ -82,7 +82,7 @@ ClassMethod RetrieveAnswer(apiKey As %String, collectionName As %String, questio
         # check if document collection exists
         conn = vectorstore.connect()
         #; sql = f"select count(*) from INFORMATION_SCHEMA.TABLES where TABLE_SCHEMA = 'SQLUser' and TABLE_NAME = 'mediCopilot-docs'"
-        sql = f'SELECT count(*) FROM SQLUser."mediCopilot-docs"'
+        sql = f'SELECT count(*) FROM SQLUser."{collectionName}"'
         result = conn.execute(text(sql))
         collection_exists = result.first()[0] > 0
         print(collection_exists)
