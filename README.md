@@ -6,6 +6,7 @@
 
 - [IRIS-MediCoPilot](#iris-medicopilot)
   - [Motivation](#motivation)
+  - [Video Presentation](#video-presentation)
   - [How it works?](#how-it-works)
   - [Prerequisites](#prerequisites)
   - [Installation](#installation)
@@ -27,6 +28,10 @@
 Our project, **Iris-MediCoPilot**, is designed to optimize patient clinical outcomes by reducing hospitalization time and supporting the development of resident and novice physicians. Additionally, it contributes to reducing financial waste in the healthcare system by improving the monitoring of pregnant patients, thereby decreasing risks and enhancing their safety.
 
 To achieve this, patients can conveniently describe their symptoms through a user-friendly Telegram bot. The project then leverages a comprehensive medical database to analyze the information. Additionally, the bot strategically asks clarifying questions to gather further details and refine the potential diagnosis. If the **Iris-MediCoPilot** identifies a potential health risk, it will advise the patient to seek medical attention at a hospital. Furthermore, the conversation history is automatically forwarded to a doctor acting as a "co-pilot" or "sidekick," providing valuable insights to support physician decision-making.
+
+## Video Presentation
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/nVYrFfbcBbw?si=EG-vXqk9trB_ei5u" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
 ## How it works?
 
