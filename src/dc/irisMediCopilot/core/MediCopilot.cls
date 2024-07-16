@@ -44,14 +44,13 @@ Method Execute(question As %String, sessionId As %String = "") As %DynamicObject
 	Return response
 }
 
-ClassMethod RetrieveAnswer(apiKey As %String, collectionName As %String, question As %String, sessionId As %String = "", model As %String = "gpt-3.5-turbo", dataPath As %String = "") [ Language = python ]
+ClassMethod RetrieveAnswer(apiKey As %String, collectionName As %String, question As %String, sessionId As %String = "", model As %String = "gpt-3.5-turbo", dataPath As %String = "", genAi As %String = "openAI") [ Language = python ]
 {
     import json
     from langchain_iris import IRISVector
     from langchain_community.chat_message_histories import ChatMessageHistory
     from langchain_core.chat_history import BaseChatMessageHistory
     from langchain_core.runnables.history import RunnableWithMessageHistory
-    from langchain_openai import ChatOpenAI, OpenAIEmbeddings
 
     from langchain_community.document_loaders.csv_loader import CSVLoader
     from langchain_text_splitters import RecursiveCharacterTextSplitter
@@ -60,6 +59,13 @@ ClassMethod RetrieveAnswer(apiKey As %String, collectionName As %String, questio
     from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
     from langchain.chains import create_retrieval_chain
     from langchain.chains.combine_documents import create_stuff_documents_chain
+
+    if (genAi == "gemini"):
+        # Google Gemini
+        from langchain_google_genai import ChatGoogleGenerativeAI, GoogleGenerativeAIEmbeddings
+    else:
+        # OpenAI
+        from langchain_openai import ChatOpenAI, OpenAIEmbeddings
 
     import os
     from sqlalchemy import text
@@ -70,12 +76,19 @@ ClassMethod RetrieveAnswer(apiKey As %String, collectionName As %String, questio
 
         text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
         splits = text_splitter.split_documents(docs)
-        llm = ChatOpenAI(model= model, temperature=0, api_key=apiKey)
-        embeddings = OpenAIEmbeddings(openai_api_key=apiKey)
+
+        if (genAi == "gemini"):
+            # Google Gemini
+            llm = ChatGoogleGenerativeAI(model= model, temperature=0, google_api_key=apiKey)
+            embeddingFunction=GoogleGenerativeAIEmbeddings(model="models/embedding-001", task_type="retrieval_document", google_api_key=apiKey)
+        else:
+            # OpenAI
+            llm = ChatOpenAI(model= model, temperature=0, api_key=apiKey)
+            embeddingFunction=OpenAIEmbeddings(model=model, openai_api_key=apiKey)
 
         # call IRISVector using a previous collection
         vectorstore = IRISVector(
-            embedding_function=OpenAIEmbeddings(openai_api_key=apiKey),
+            embedding_function=embeddingFunction,
             dimension=1536,
             collection_name=collectionName,
         )
@@ -90,7 +103,7 @@ ClassMethod RetrieveAnswer(apiKey As %String, collectionName As %String, questio
             # call IRISVector passing a list of documents to be stored in a collection
             vectorstore = IRISVector.from_documents(
                 documents=splits,
-                embedding=OpenAIEmbeddings(openai_api_key=apiKey),
+                embedding=embeddingFunction,
                 dimension=1536,
                 collection_name=collectionName,
             )
