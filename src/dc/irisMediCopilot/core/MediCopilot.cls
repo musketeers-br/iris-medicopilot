@@ -11,6 +11,8 @@ Property SSLConfiguration As %String;
 
 Property Model As %String [ InitialExpression = "gpt-3.5-turbo" ];
 
+Property GenAi As %String(VALUELIST = "OpenAi,Gemini,Claude") [ InitialExpression = "OpenAi" ];
+
 Property DataPath As %String [ InitialExpression = "/home/irisowner/dev/src/data/synthetic_data_02.csv" ];
 
 Method %OnNew(collectionName As %String, apiKey As %String, ssl As %String, dataPath As %String) As %Status [ Private ]
